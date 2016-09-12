@@ -1,0 +1,75 @@
+*{
+	padding: 0px;
+	margin: 0px;
+	box-sizing: border-box;
+}
+body{
+	height: 1300px;
+}
+
+
+#grid{
+	display: flex;
+	flex-direction:column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	width: 100%;
+	flex-grow: 1;
+}
+.boxRow{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	flex-grow: 1;
+}
+.gridBox{
+	flex-grow: 1;
+	border:1px solid #e6dfdf;
+}
+
+.resizable {
+  min-width: 50px;
+  width: 100px;
+  min-height: 50px;
+  height: 100px;
+  background: #EEE;
+  border: 1px solid #AAA;
+  overflow: hidden;
+}
+
+.ui-resizable-se {
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 0 0 16px 16px;
+  border-color: transparent transparent #AAA transparent;
+  background: none;
+  position: absolute;
+  bottom: 0;
+  right : 0;
+  cursor: nwse-resize;
+}
+
+button#saveState{
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 100px;
+	height: 20px;
+}
+
+.cancelDiv{
+	position: absolute;
+	top:0;
+	right: 0;
+}
+
+button#generate{
+	position: absolute;
+	top: 40px;
+	right: 0;
+	width: 100px;
+	height: 20px;	
+}
