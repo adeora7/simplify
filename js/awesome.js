@@ -8,7 +8,7 @@ var gridSizeX = 100;
 var gridSizeY = 100;
 var save = 0;
 var inProgress = 1;
-
+var allow = 0;
 var elementCounter = 0;
 
 var allElements = [];
@@ -132,13 +132,15 @@ function saveState(){
 function generateCode(){
 	if(save == 0){
 		var finalSolution = document.createElement('div');
-		$(finalSolution).addClass("body");
+		$(finalSolution).addClass("body").css({
+			top : "0px",
+			left : "0px"
+		});
 		$("body").append(finalSolution);
 		for (var property in parentChildMap) {
 			if (parentChildMap.hasOwnProperty(property)) {
 		        //property is the parent where this child is to be added
 		        var u = $("body").find("."+property);
-		        
 		        for(var x = 0 ; x< parentChildMap[property].length; x++){
 		        	//console.log(parentChildMap[property][x]);
 		        	//child to be added
@@ -149,11 +151,37 @@ function generateCode(){
 		        			break;
 		        		}
 		        	}
+		        	$(v).css({
+		        		top: (parseInt($(v).css("top")) - parseInt($(u).css("top"))) + "px",
+		        		left: (parseInt($(v).css("left")) - parseInt($(u).css("left"))) + "px"
+
+		        	});
+
+					//console.log( parseInt($(v).css("top")) -parseInt($(u).css("top")) );
+		        	
 		        	u.append(v);
 		        }
 		    }
 		}
 		console.log(finalSolution);
+		var htmlOutput = 
+		`<!DOCTYPE html>
+		<html>
+			<head>
+			</head>
+			<body>
+		`;
+
+		htmlOutput += $(finalSolution).html();
+
+		htmlOutput += `
+			</body>
+		</html>`;
+		//console.log(htmlOutput);
+		$("#downloadLink").attr('href', makeTextFile(htmlOutput));
+		// $("body").text(htmlOutput);
+		allow = 1;
+		// window.print();
 	}
 	else
 	{
@@ -220,13 +248,20 @@ function showGrid(){
 		
 	var offset = $("#grid").offset();
 	$(document).click(function(e){
-    	addElement(e.pageX - offset.left, e.pageY - offset.top,e);
+    	if(allow == 0){
+    		addElement(e.pageX - offset.left, e.pageY - offset.top,e);
+    	}
     	save = 1;
 	});
 
 
 }
 
+function makeTextFile(text) {
+	var data = new Blob([text], {type: 'text/plain'});
+	textFile = window.URL.createObjectURL(data);
+	return textFile;
+}
 //end of utility functions
 
 

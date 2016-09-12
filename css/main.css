@@ -3,10 +3,6 @@
 	margin: 0px;
 	box-sizing: border-box;
 }
-body{
-	height: 1300px;
-}
-
 
 #grid{
 	display: flex;
@@ -72,4 +68,13 @@ button#generate{
 	right: 0;
 	width: 100px;
 	height: 20px;	
+}
+
+#downloadLink {
+	position: absolute;
+	top: 80px;
+	right: 0;
+	width: 120px;
+	height: 20px;
+	cursor: pointer;	
 }
