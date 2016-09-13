@@ -32,7 +32,6 @@
   height: 100px;
   background: #EEE;
   border: 1px solid #AAA;
-  overflow: hidden;
 }
 
 .ui-resizable-se {
@@ -50,10 +49,12 @@
 
 button#saveState{
 	position: absolute;
-	top: 0;
-	right: 0;
+	top: 5px;
+	right: 5px;
 	width: 100px;
-	height: 20px;
+	height: 30px;
+	background-color: rgba(255, 255, 255, 0.7);
+	border: black 2.5px solid;
 }
 
 .cancelDiv{
@@ -65,16 +66,42 @@ button#saveState{
 button#generate{
 	position: absolute;
 	top: 40px;
-	right: 0;
+	right: 5px;
 	width: 100px;
-	height: 20px;	
+	height: 30px;
+	background-color: rgba(255, 255, 255, 0.7);
+	border: black 2.5px solid;
 }
 
 #downloadLink {
 	position: absolute;
 	top: 80px;
-	right: 0;
+	right: 5px;
 	width: 120px;
 	height: 20px;
-	cursor: pointer;	
+	text-align: right;
+}
+
+.editDiv {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	height: 20px;
+	width: 20px;
+}
+
+.cancelDiv {
+	position: absolute;
+	top: -10px;
+	right: -10px;
+	height: 20px;
+	width: 20px;
+}
+
+.buttonPanel {
+	position: absolute;
+	right: 0;
+	height: 105px;
+	width: 115px;
+	background-color: rgba(207, 81, 81, 0.8);
 }

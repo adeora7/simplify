@@ -78,6 +78,10 @@ function removeElement(className){
 
 function addElement(startx, starty, e){
 
+	if($(e.target).hasClass('ui-resizable-handle')){
+		return;
+	}
+
 	var newElement = document.createElement('div');
 	$("body").append(newElement);
 	$(newElement).css({
@@ -85,29 +89,34 @@ function addElement(startx, starty, e){
 		top: starty + "px",
 		left: startx + "px",
 		height: "100px",
-		width: "100px",
-		background: "red" 
-
+		width: "100px" ,
+		background: "rgba(255, 255, 255, 0.5)",
+		border: "1px solid #AAA" 
 	});
+	$(newElement).attr("actualLeft", startx);
+	$(newElement).attr("actualTop", starty);
 	$(newElement).addClass("resizable");
 	$(newElement).addClass("entry"+elementCounter);
 	var currE = "entry" + elementCounter;
 	elementCounter++;
 	$(newElement).resizable();
-	$(newElement).append("<button class='editDiv'>edit</button><button class='cancelDiv'>X</button>");
+	$(newElement).append("<img src='images/edit.png' class='editDiv'><img src='images/cancel.png' class='cancelDiv'>");
 
 	// makes GSAP Draggable avoid clicks on the resize handles
 	$('.ui-resizable-handle').attr('data-clickable', true);
 
 	if($(e.target).hasClass("resizable")){
-		var classes = $(e.target).attr('class').split(' ');
-		if(e.target.classList[1] in parentChildMap){
-			parentChildMap[e.target.classList[1]].push(currE);
-		}
+		//var classes = $(e.target).attr('class').split(' ');
+		console.log(e.target.classList[1]);
+		//if(e.target.classList[1] in parentChildMap){
+			
+		parentChildMap[e.target.classList[1]].push(currE);
+		parentChildMap[currE] = [];
+		/*}
 		else{
-			parentChildMap[e.target.classList[1]] = [];
+			parentChildMap[currE] = [];
 			parentChildMap[e.target.classList[1]].push(currE);
-		}
+		}*/
 		
 		console.log(parentChildMap);
 	}
@@ -127,20 +136,26 @@ function saveState(){
 		$(allElements[i]).find('.cancelDiv, .ui-resizable-handle, .editDiv').remove();
 	}
 	save = 0;
+	allow = 0;
 }
 
 function generateCode(){
-	if(save == 0){
+	if(save == 0 && allow == 0){
 		var finalSolution = document.createElement('div');
 		$(finalSolution).addClass("body").css({
 			top : "0px",
 			left : "0px"
 		});
+
+
 		$("body").append(finalSolution);
 		for (var property in parentChildMap) {
 			if (parentChildMap.hasOwnProperty(property)) {
 		        //property is the parent where this child is to be added
 		        var u = $("body").find("."+property);
+		        // var u1 = $()
+		        var uStartX = $(u).attr("actualLeft");
+		        var uStartY = $(u).attr("actualTop");
 		        for(var x = 0 ; x< parentChildMap[property].length; x++){
 		        	//console.log(parentChildMap[property][x]);
 		        	//child to be added
@@ -151,11 +166,17 @@ function generateCode(){
 		        			break;
 		        		}
 		        	}
+
 		        	$(v).css({
+		        		top: (parseInt($(v).css("top")) - uStartY  ) + "px",
+		        		left: (parseInt($(v).css("left")) - uStartX) + "px"
+
+		        	});
+		        	/*$(v).css({
 		        		top: (parseInt($(v).css("top")) - parseInt($(u).css("top"))) + "px",
 		        		left: (parseInt($(v).css("left")) - parseInt($(u).css("left"))) + "px"
 
-		        	});
+		        	});*/
 
 					//console.log( parseInt($(v).css("top")) -parseInt($(u).css("top")) );
 		        	
@@ -301,5 +322,4 @@ $(document).ready(function(){
 		generateCode();
 		e.stopPropagation();
 	});
-
 });
